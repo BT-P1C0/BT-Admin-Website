@@ -14,6 +14,8 @@ const map = new mapboxgl.Map({
 	hash: true,
 	maxPitch: 45,
 	doubleClickZoom: false,
+	customAttribution:
+		"<a href='https://github.com/BT-P1C0' target=_blank style='font-weight:bold;'>BT-P1C0</a> | <a href='https://github.com/BT-P1C0' target=_blank>Lakshyajeet Jalal</a> & <a href='https://github.com/BT-P1C0' target=_blank>Shriyansh Dhapola</a>",
 });
 
 const busList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -33,7 +35,7 @@ const bussesObject = {
 
 busList.forEach((bus) => {
 	for (let i = 1; i <= 4; i++)
-		fetch(`data/${bus + i}.geojson`)
+		fetch(`data/routes/${bus + i}.geojson`)
 			.then((response) => {
 				return response.json();
 			})
@@ -43,6 +45,17 @@ busList.forEach((bus) => {
 			.catch((error) => {
 				bussesObject[bus][`route${i}`] = null;
 			});
+
+	fetch(`data/details/${bus}.geojson`)
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			bussesObject[bus].details = data;
+		})
+		.catch((error) => {
+			bussesObject[bus].details = null;
+		});
 });
 
 const busInputs = document.getElementById("bus").getElementsByTagName("input");
@@ -53,19 +66,34 @@ var busNo, shiftNo;
 for (const input of busInputs) {
 	input.onclick = (bus) => {
 		if (busNo !== bus.target.value) {
+			if (busNo) {
+				document
+					.getElementById(`bus-${busNo.toLowerCase()}-item`)
+					.classList.remove("submenu-item-selected");
+			}
 			busNo = bus.target.value;
+			document
+				.getElementById(`bus-${busNo.toLowerCase()}-item`)
+				.classList.add("submenu-item-selected"); // Highlight Clicked button
 			highlightBus();
 		} else {
 			document.getElementById(
 				`bus-${busNo.toLowerCase()}`
 			).checked = false;
+			document
+				.getElementById(`bus-${busNo.toLowerCase()}-item`)
+				.classList.remove("submenu-item-selected");
 			busNo = undefined;
+			// Highlight Clicked button
 			unhighlightBus();
 		}
 	};
 	if (input.checked) {
 		if (busNo !== input.value) {
 			busNo = input.value;
+			document
+				.getElementById(`bus-${busNo.toLowerCase()}-item`)
+				.classList.add("submenu-item-selected");
 			highlightBus();
 		}
 	}
@@ -73,7 +101,15 @@ for (const input of busInputs) {
 for (const input of shiftInputs) {
 	input.onclick = (shift) => {
 		if (shiftNo !== shift.target.value) {
+			if (shiftNo) {
+				document
+					.getElementById(`shift-${shiftNo}-item`)
+					.classList.remove("submenu-item-selected");
+			}
 			shiftNo = shift.target.value;
+			document
+				.getElementById(`shift-${shiftNo}-item`)
+				.classList.add("submenu-item-selected");
 			changeBusRoute();
 		} else {
 			fitRouteOnMap(bussesObject[busNo][`route${shiftNo}`]);
@@ -81,6 +117,9 @@ for (const input of shiftInputs) {
 	};
 	if (input.checked) {
 		shiftNo = input.value;
+		document
+			.getElementById(`shift-${shiftNo}-item`)
+			.classList.remove("submenu-item-selected");
 	}
 }
 
@@ -199,7 +238,7 @@ function highlightBus() {
 		map.moveLayer(busNo, "road-label-navigation");
 		busList.forEach((bus) => {
 			if (bus !== busNo && map.getLayer(bus)) {
-				map.setPaintProperty(bus, "line-opacity", 0.5);
+				map.setPaintProperty(bus, "line-opacity", 0.25);
 			}
 		});
 		map.setPaintProperty(busNo, "line-opacity", 1);
