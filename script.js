@@ -46,7 +46,7 @@ busList.forEach((bus) => {
 				bussesObject[bus][`route${i}`] = null;
 			});
 
-	fetch(`data/details/${bus}.geojson`)
+	fetch(`data/details/${bus}.json`)
 		.then((response) => {
 			return response.json();
 		})
@@ -75,6 +75,7 @@ for (const input of busInputs) {
 			document
 				.getElementById(`bus-${busNo.toLowerCase()}-item`)
 				.classList.add("submenu-item-selected"); // Highlight Clicked button
+			changeBusDetails();
 			highlightBus();
 		} else {
 			document.getElementById(
@@ -85,6 +86,7 @@ for (const input of busInputs) {
 				.classList.remove("submenu-item-selected");
 			busNo = undefined;
 			// Highlight Clicked button
+			clearBusDetails();
 			unhighlightBus();
 		}
 	};
@@ -94,6 +96,7 @@ for (const input of busInputs) {
 			document
 				.getElementById(`bus-${busNo.toLowerCase()}-item`)
 				.classList.add("submenu-item-selected");
+			changeBusDetails();
 			highlightBus();
 		}
 	}
@@ -119,7 +122,7 @@ for (const input of shiftInputs) {
 		shiftNo = input.value;
 		document
 			.getElementById(`shift-${shiftNo}-item`)
-			.classList.remove("submenu-item-selected");
+			.classList.add("submenu-item-selected");
 	}
 }
 
@@ -253,4 +256,49 @@ function unhighlightBus() {
 			map.setPaintProperty(bus, "line-opacity", 0.5);
 		}
 	});
+}
+
+function clearBusDetails() {
+	document.getElementById("bus-details").innerHTML = "";
+}
+
+function changeBusDetails() {
+	document.getElementById("bus-details").innerHTML = `
+	<div>
+		<a>Bus</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.bus.letter}</a>
+	</div>
+	<div>
+		<a>License Plate</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.bus.license}</a>
+	</div>
+	<div>
+		<a>Driver Name</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.driver.name}</a>
+	</div>
+	<div>
+		<a>Driver Number</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.driver.phone}</a>
+	</div>
+	<div>
+		<a>Helper Name</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.helper.name}</a>
+	</div>
+	<div>
+		<a>Helper Number</a>
+	</div>
+	<div>
+		<a>${bussesObject[busNo].details.helper.phone}</a>
+	</div>
+	`;
 }
