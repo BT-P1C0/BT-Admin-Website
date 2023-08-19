@@ -54,6 +54,7 @@ busList.forEach((bus) => {
 			bussesObject[bus].details = data;
 		})
 		.catch((error) => {
+			console.log(`${bus} data not found, error: ${error}`);
 			bussesObject[bus].details = null;
 		});
 });
