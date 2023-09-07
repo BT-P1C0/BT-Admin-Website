@@ -30,7 +30,7 @@ body {
 	background: #2c3035;
 	display: flex;
 }
-#menu {
+#sidebarContent {
 	margin: 15px;
 	width: 100%;
 	background: #2c3035;
@@ -94,7 +94,7 @@ body {
 #shift {
 	grid-template-columns: auto auto;
 }
-#menu h3 {
+#sidebarContent h3 {
 	width: 100%;
 	padding: 0.5em;
 	/* padding-left: 1em; */
