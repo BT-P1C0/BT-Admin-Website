@@ -1,5 +1,6 @@
+const dataBaseUrl = "https://raw.githubusercontent.com/BT-P1C0/BT-DATA/main/";
 mapboxgl.accessToken =
-	"pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2tuMWM2amttMHN0NDJ3cXVxOGJsY3p4MiJ9.LuGi_8FfhyDQHtWqHRgcjw";
+	"pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2xtOG5qMmY2MGVmcDNjbG1wcTZubm14aiJ9.rmFsEnCnxsuaaAS4jhrF-g";
 
 const pubnub = new PubNub({
 	subscribeKey: "sub-c-10e0e350-30c8-4f8c-84dc-659f6954424e",
@@ -35,7 +36,7 @@ const bussesObject = {
 
 busList.forEach((bus) => {
 	for (let i = 1; i <= 4; i++)
-		fetch(`data/routes/${bus + i}.geojson`)
+		fetch(`${dataBaseUrl}/routes/${bus + i}.geojson`)
 			.then((response) => {
 				return response.json();
 			})
@@ -46,7 +47,7 @@ busList.forEach((bus) => {
 				bussesObject[bus][`route${i}`] = null;
 			});
 
-	fetch(`data/details/${bus}.json`)
+	fetch(`${dataBaseUrl}/details/${bus}.json`)
 		.then((response) => {
 			return response.json();
 		})
