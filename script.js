@@ -1,4 +1,4 @@
-const dataBaseUrl = "https://raw.githubusercontent.com/BT-P1C0/BT-DATA/main/";
+const dataBaseUrl = "https://raw.githubusercontent.com/BT-P1C0/BT-DATA/main";
 mapboxgl.accessToken =
 	"pk.eyJ1IjoibGFrc2h5YWplZXQiLCJhIjoiY2xtOG5qMmY2MGVmcDNjbG1wcTZubm14aiJ9.rmFsEnCnxsuaaAS4jhrF-g";
 
@@ -19,7 +19,21 @@ const map = new mapboxgl.Map({
 		"<a href='https://github.com/BT-P1C0' target=_blank style='font-weight:bold;'>BT-P1C0</a> | <a href='https://github.com/BT-P1C0' target=_blank>Lakshyajeet Jalal</a> & <a href='https://github.com/BT-P1C0' target=_blank>Shriyansh Dhapola</a>",
 });
 
-const busList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+const busList = [
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+];
 
 const bussesObject = {
 	A: { routeColor: "#05cb63" },
@@ -32,6 +46,9 @@ const bussesObject = {
 	H: { routeColor: "#ffc300" },
 	I: { routeColor: "#FF003C" },
 	J: { routeColor: "#ba6281" },
+	K: { routeColor: "#ff00bc" },
+	L: { routeColor: "#ff4300" },
+	M: { routeColor: "#ffc300" },
 };
 
 busList.forEach((bus) => {
